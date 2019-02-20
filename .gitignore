@@ -1,0 +1,10 @@
+.idea
+uploads
+target
+flush
+mysql
+pom.xml
+project2019.iml
+quit
+update
+src/main/resources/application.properties
