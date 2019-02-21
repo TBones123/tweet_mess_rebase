@@ -32,12 +32,6 @@ public class UserService implements UserDetailsService {
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
-        }if (user.getActivationCode() == null){
-            try {
-                throw new ActivateFailedException("User not activate");
-            } catch (ActivateFailedException e) {
-                        e.printStackTrace();
-            }
         }
 
         return user;
@@ -135,5 +129,16 @@ public class UserService implements UserDetailsService {
         if (isEmailChanged) {
             sendMessage(user);
         }
+    }
+    public void subscribe(User currentUser, User user) {
+        user.getSubscribers().add(currentUser);
+
+        userRepository.save(user);
+    }
+
+    public void unsubscribe(User currentUser, User user) {
+        user.getSubscribers().remove(currentUser);
+
+        userRepository.save(user);
     }
 }

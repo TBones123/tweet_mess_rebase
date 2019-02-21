@@ -1,4 +1,3 @@
-
 create table message (
   id bigint not null auto_increment,
   filename varchar(255),
@@ -30,3 +29,9 @@ alter table message
 alter table user_role
   add constraint user_role_user_fk
   foreign key (user_id) references usr (id);
+
+    create table user_subscriptions (
+    subscriber_id bigint not null references usr,
+    channel_id bigint not null references usr,
+    primary key (channel_id, subscriber_id))
+      engine=MyISAM;
