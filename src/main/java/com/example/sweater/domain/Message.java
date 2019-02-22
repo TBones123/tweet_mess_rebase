@@ -1,10 +1,13 @@
 package com.example.sweater.domain;
 
 
+import com.example.sweater.domain.util.MessageHelper;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Message {
@@ -12,27 +15,25 @@ public class Message {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-
     @NotBlank(message = "Please fill the message")
-    @Length(max = 2048, message = "Message too long (more then 2048 chars)")
+    @Length(max = 2048, message = "Message too long (more than 2kB)")
     private String text;
-
-    @Length(max = 255, message = "Message too long (more then 255 chars)")
+    @Length(max = 255, message = "Message too long (more than 255)")
     private String tag;
-//    @GeneratedValue(
-//            strategy= GenerationType.AUTO,
-//            generator="native"
-//    )
-//    @GenericGenerator(
-//            name = "native",
-//            strategy = "native"
-//    )
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
 
-    private  String filename;
+    private String filename;
+
+    @ManyToMany
+    @JoinTable(
+            name = "message_likes",
+            joinColumns = { @JoinColumn(name = "message_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();
 
     public Message() {
     }
@@ -44,7 +45,7 @@ public class Message {
     }
 
     public String getAuthorName() {
-        return author != null ? author.getUsername() : "<none>";
+        return MessageHelper.getAuthorName(author);
     }
 
     public User getAuthor() {
@@ -81,6 +82,14 @@ public class Message {
 
     public String getFilename() {
         return filename;
+    }
+
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
     }
 
     public void setFilename(String filename) {

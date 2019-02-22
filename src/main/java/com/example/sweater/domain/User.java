@@ -1,6 +1,7 @@
 package com.example.sweater.domain;
 
 
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,16 +19,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotBlank(message = "Username cannot be empty")
     private String username;
-
     @NotBlank(message = "Password cannot be empty")
     private String password;
     private boolean active;
 
-    @NotBlank(message = "Email cannot be empty")
     @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
     private String activationCode;
 
@@ -39,14 +38,13 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Message> messages;
 
-//Subscribe for me @@ and me subscribe
-        @ManyToMany
-        @JoinTable(
-        name = "user_subscriptions",
-        joinColumns = { @JoinColumn(name = "channel_id") },
-        inverseJoinColumns = { @JoinColumn(name = "subscriber_id") }
-)
-private Set<User> subscribers = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = { @JoinColumn(name = "channel_id") },
+            inverseJoinColumns = { @JoinColumn(name = "subscriber_id") }
+    )
+    private Set<User> subscribers = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -64,14 +62,13 @@ private Set<User> subscribers = new HashSet<>();
         return Objects.equals(id, user.id);
     }
 
-
     @Override
     public int hashCode() {
 
         return Objects.hash(id);
     }
 
-    public boolean isAdmin (){
+    public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
 

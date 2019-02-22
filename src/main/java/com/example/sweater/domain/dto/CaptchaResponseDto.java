@@ -1,6 +1,5 @@
 package com.example.sweater.domain.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -27,5 +26,4 @@ public class CaptchaResponseDto {
     public void setErrorCodes(Set<String> errorCodes) {
         this.errorCodes = errorCodes;
     }
-
 }

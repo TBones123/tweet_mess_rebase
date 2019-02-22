@@ -1,5 +1,6 @@
 package com.example.sweater.controller;
 
+
 import com.example.sweater.domain.User;
 import com.example.sweater.domain.dto.CaptchaResponseDto;
 import com.example.sweater.service.UserService;
@@ -21,8 +22,7 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
-    private final static String CAPTCHA_URL
-            = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
+    private final static String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
 
     @Autowired
     private UserService userService;
