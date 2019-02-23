@@ -104,4 +104,5 @@ public class UserController {
 
         return "subscriptions";
     }
+
 }
